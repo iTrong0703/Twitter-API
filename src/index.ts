@@ -1,2 +1,11 @@
-const hello: string = 'Hello world!'
-console.log(hello)
+import express, { Router } from 'express'
+import usersRouter from './routes/users.routes'
+const app = express()
+const port = 3000 // PORT
+
+app.use(express.json())
+app.use('/users', usersRouter)
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
