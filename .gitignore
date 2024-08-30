@@ -1,2 +1,4 @@
 node_modules/
 dist/
+# file thì k cần dấu /, chỉ folder cần dấu /
+.env
