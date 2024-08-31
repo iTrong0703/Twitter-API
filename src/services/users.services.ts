@@ -10,6 +10,7 @@ class UsersService {
         password
       })
     )
+    return result
   }
 }
 

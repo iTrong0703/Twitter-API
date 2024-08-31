@@ -1,9 +1,8 @@
 import { Request, Response } from 'express'
 import usersService from '~/services/users.services'
 
-// Do req, res yêu cầu kiểu dữ liệu, chứ k đc để any
+// Do req, res yêu cầu kiểu dữ liệu, nên ta phải import chứ k đc để any
 export const registerController = async (req: Request, res: Response) => {
-  console.log('hihis')
   const { email, password } = req.body
   try {
     const result = await usersService.register({ email, password })
