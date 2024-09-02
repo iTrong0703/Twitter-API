@@ -6,7 +6,8 @@ const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}
 
 class DatabaseService {
   private client: MongoClient
-  private db: Db
+  private db?: Db // Để db có thể là undefined cho đến khi kết nối thành công
+
   // Hàm khởi tạo
   constructor() {
     this.client = new MongoClient(uri)
@@ -16,6 +17,12 @@ class DatabaseService {
   // Phương thức connect
   async connect() {
     try {
+      // Kết nối đến MongoDB
+      await this.client.connect()
+
+      // Khởi tạo db sau khi kết nối thành công
+      this.db = this.client.db(process.env.DB_NAME)
+
       // Send a ping to confirm a successful connection
       await this.db.command({ ping: 1 })
       console.log('Pinged your deployment. You successfully connected to MongoDB!')
@@ -27,6 +34,10 @@ class DatabaseService {
 
   // Các getter collections
   get users(): Collection<User> {
+    // Nếu db chưa được khởi tạo
+    if (!this.db) {
+      throw new Error('Database not connected')
+    }
     return this.db.collection('users')
   }
 }
