@@ -1,13 +1,16 @@
 import User from '~/models/schemas/User.schema'
 import databaseService from './database.services'
 import { RegisterRequestBody } from '~/models/requests/User.requests'
+import { hashPassword } from '~/utils/hash'
 
 class UsersService {
   async register(payload: RegisterRequestBody) {
+    const hashedPassword = await hashPassword(payload.password)
     const result = await databaseService.users.insertOne(
       new User({
         ...payload, // Sao chép tất cả các thuộc tính từ payload vào đối tượng User
-        date_of_birth: new Date(payload.date_of_birth)
+        date_of_birth: new Date(payload.date_of_birth),
+        password: hashedPassword
       })
     )
     return result
