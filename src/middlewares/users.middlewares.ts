@@ -1,4 +1,5 @@
 import { checkSchema } from 'express-validator'
+import usersService from '~/services/users.services'
 import { validate } from '~/utils/validation'
 
 export const registerValidator = validate(
@@ -30,7 +31,12 @@ export const registerValidator = validate(
       isEmail: {
         errorMessage: 'Email không hợp lệ'
       },
-      trim: true
+      trim: true,
+      custom: {
+        options: async (value) => {
+          return await usersService.checkEmailExist(value)
+        }
+      }
     },
     date_of_birth: {
       isISO8601: {
