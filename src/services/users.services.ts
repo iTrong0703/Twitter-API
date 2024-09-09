@@ -4,6 +4,7 @@ import { RegisterRequestBody } from '~/models/requests/User.requests'
 import { hashPassword } from '~/utils/hash'
 import { signToken } from '~/utils/jwt'
 import { TokenType } from '~/constants/enums'
+import { ErrorWithStatus } from '~/models/Errors'
 
 class UsersService {
   // Tạo access token
