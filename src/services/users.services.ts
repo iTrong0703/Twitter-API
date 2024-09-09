@@ -31,6 +31,16 @@ class UsersService {
       }
     })
   }
+  private signAccessAndRefreshToken(user_id: string) {
+    return Promise.all([this.signAccessToken(user_id), this.signRefreshToken(user_id)])
+  }
+  async login(user_id: string) {
+    const [acces_token, refresh_token] = await this.signAccessAndRefreshToken(user_id)
+    return {
+      acces_token,
+      refresh_token
+    }
+  }
   async register(payload: RegisterRequestBody) {
     // Hash password trước khi đưa vào db
     const hashedPassword = await hashPassword(payload.password)
@@ -42,10 +52,7 @@ class UsersService {
       })
     )
     const user_id = result.insertedId.toString()
-    const [acces_token, refresh_token] = await Promise.all([
-      this.signAccessToken(user_id),
-      this.signRefreshToken(user_id)
-    ])
+    const [acces_token, refresh_token] = await this.signAccessAndRefreshToken(user_id)
     return {
       acces_token,
       refresh_token
@@ -53,7 +60,8 @@ class UsersService {
   }
 
   async checkEmailExist(email: string) {
-    return await databaseService.users.findOne({ email: email })
+    const isEmailExist = await databaseService.users.findOne({ email: email })
+    return Boolean(isEmailExist)
   }
 }
 

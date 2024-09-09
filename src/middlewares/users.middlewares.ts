@@ -1,7 +1,59 @@
 import { checkSchema } from 'express-validator'
 import { USERS_MESSAGES } from '~/constants/messages'
+import databaseService from '~/services/database.services'
 import usersService from '~/services/users.services'
 import { validate } from '~/utils/validation'
+
+export const loginValidator = validate(
+  checkSchema({
+    email: {
+      notEmpty: {
+        errorMessage: USERS_MESSAGES.EMAIL_IS_REQUIRED
+      },
+      isEmail: {
+        errorMessage: USERS_MESSAGES.EMAIL_INVALID
+      },
+      trim: true,
+      custom: {
+        options: async (value, { req }) => {
+          const user = await databaseService.users.findOne({ email: value })
+          // Nếu k tìm thấy email = user chưa register
+          if (user === null) {
+            throw new Error(USERS_MESSAGES.USER_NOT_FOUND)
+          }
+          // Nếu tìm thấy email thì truyền user qua loginController bằng req
+          req.user = user
+          return true
+        }
+      }
+    },
+    password: {
+      notEmpty: {
+        errorMessage: USERS_MESSAGES.PASSWORD_IS_REQUIRED
+      },
+      isString: {
+        errorMessage: USERS_MESSAGES.PASSWORD_MUST_BE_A_STRING
+      },
+      isLength: {
+        options: {
+          min: 8,
+          max: 64
+        },
+        errorMessage: USERS_MESSAGES.PASSWORD_LENGTH
+      },
+      isStrongPassword: {
+        options: {
+          minLength: 8, // Độ dài tối thiểu của mật khẩu
+          minLowercase: 1, // Số lượng ký tự chữ cái viết thường tối thiểu
+          minUppercase: 1, // Số lượng ký tự chữ cái viết hoa tối thiểu
+          minNumbers: 1, // Số lượng ký tự số tối thiểu
+          minSymbols: 1 // Số lượng ký tự đặc biệt tối thiểu
+        },
+        errorMessage: USERS_MESSAGES.PASSWORD_STRENGTH
+      }
+    }
+  })
+)
 
 export const registerValidator = validate(
   checkSchema({
