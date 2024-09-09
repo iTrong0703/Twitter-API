@@ -27,6 +27,7 @@ export const validate = (validation: RunnableValidationChains<ValidationChain>) 
     for (const key in errorsObject) {
       // Dùng Destructuring lấy ra msg
       const { msg } = errorsObject[key]
+
       // Trả về lỗi không phải 422
       if (msg instanceof ErrorWithStatus && msg.status != HTTP_STATUS.UNPROCESSABLE_ENTITY) {
         // Nếu msg thuộc ErrorWithStatus thì sẽ chắc chắn có status và có kiểu ErrorWithStatus

@@ -53,12 +53,7 @@ class UsersService {
   }
 
   async checkEmailExist(email: string) {
-    const user = await databaseService.users.findOne({ email: email })
-    // Nếu email đã được sử dụng
-    if (user) {
-      throw new Error('Email đã được sử dụng')
-    }
-    return true
+    return await databaseService.users.findOne({ email: email })
   }
 }
 
