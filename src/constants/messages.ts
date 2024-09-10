@@ -16,7 +16,7 @@ export const USERS_MESSAGES = {
   CONFIRM_PASSWORD_IS_REQUIRED: 'Xác nhận mật khẩu không được để trống',
   CONFIRM_PASSWORD_LENGTH: 'Xác nhận mật khẩu phải có độ dài từ 8 đến 64 ký tự',
   CONFIRM_PASSWORD_NOT_MATCH: 'Mật khẩu xác nhận không khớp',
-  USER_NOT_FOUND: 'Người dùng không tồn tại',
-  LOGIN_SUCCESS: 'Đăng nhập thành công!!!',
-  REGISTER_SUCCESS: 'Đăng ký thành công!!!'
+  LOGIN_SUCCESS: 'Đăng nhập thành công',
+  REGISTER_SUCCESS: 'Đăng ký thành công',
+  INVALID_EMAIL_OR_PASSWORD: 'Email hoặc mật khẩu không hợp lệ'
 } as const

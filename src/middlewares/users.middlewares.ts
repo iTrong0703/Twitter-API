@@ -3,6 +3,7 @@ import { USERS_MESSAGES } from '~/constants/messages'
 import databaseService from '~/services/database.services'
 import usersService from '~/services/users.services'
 import { validate } from '~/utils/validation'
+import bcrypt from 'bcrypt'
 
 export const loginValidator = validate(
   checkSchema({
@@ -17,10 +18,11 @@ export const loginValidator = validate(
       custom: {
         options: async (value, { req }) => {
           const user = await databaseService.users.findOne({ email: value })
-          // Nếu k tìm thấy email = user chưa register
-          if (user === null) {
-            throw new Error(USERS_MESSAGES.USER_NOT_FOUND)
+          // Nếu k tìm thấy email -> user chưa register || nếu user != null mà compare password = !(false) -> sai pass
+          if (user === null || !(await bcrypt.compare(req.body.password, user.password))) {
+            throw new Error(USERS_MESSAGES.INVALID_EMAIL_OR_PASSWORD)
           }
+
           // Nếu tìm thấy email thì truyền user qua loginController bằng req
           req.user = user
           return true

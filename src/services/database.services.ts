@@ -1,6 +1,7 @@
 import { MongoClient, Db, Collection } from 'mongodb'
 import 'dotenv/config'
 import User from '~/models/schemas/User.schema'
+import RefreshToken from '~/models/schemas/RefreshToken.schema'
 
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@learning-cluster.0adzo.mongodb.net/?retryWrites=true&w=majority&appName=learning-cluster`
 
@@ -38,7 +39,15 @@ class DatabaseService {
     if (!this.db) {
       throw new Error('Database not connected')
     }
-    return this.db.collection('users')
+    return this.db.collection(process.env.DB_USERS_COLLECTION as string)
+  }
+
+  get refreshTokens(): Collection<RefreshToken> {
+    // Nếu db chưa được khởi tạo
+    if (!this.db) {
+      throw new Error('Database not connected')
+    }
+    return this.db.collection(process.env.DB_REFRESH_TOKENS_COLLECTION as string)
   }
 }
 
