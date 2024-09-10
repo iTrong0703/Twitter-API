@@ -18,5 +18,6 @@ export const USERS_MESSAGES = {
   CONFIRM_PASSWORD_NOT_MATCH: 'Mật khẩu xác nhận không khớp',
   LOGIN_SUCCESS: 'Đăng nhập thành công',
   REGISTER_SUCCESS: 'Đăng ký thành công',
-  INVALID_EMAIL_OR_PASSWORD: 'Email hoặc mật khẩu không hợp lệ'
+  INVALID_EMAIL_OR_PASSWORD: 'Email hoặc mật khẩu không hợp lệ',
+  ACCESS_TOKEN_IS_REQUIRED: 'Access token is required'
 } as const
