@@ -8,6 +8,7 @@ import 'dotenv/config'
 import { ErrorWithStatus } from '~/models/Errors'
 import RefreshToken from '~/models/schemas/RefreshToken.schema'
 import { ObjectId } from 'mongodb'
+import { USERS_MESSAGES } from '~/constants/messages'
 
 class UsersService {
   // Tạo access token
@@ -66,6 +67,11 @@ class UsersService {
       acces_token,
       refresh_token
     }
+  }
+
+  async logout(refresh_token: string) {
+    await databaseService.refreshTokens.deleteOne({ token: refresh_token })
+    return true
   }
 
   async checkEmailExist(email: string) {

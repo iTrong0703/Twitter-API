@@ -18,6 +18,10 @@ export const USERS_MESSAGES = {
   CONFIRM_PASSWORD_NOT_MATCH: 'Mật khẩu xác nhận không khớp',
   LOGIN_SUCCESS: 'Đăng nhập thành công',
   REGISTER_SUCCESS: 'Đăng ký thành công',
+  LOGOUT_SUCCESS: 'Đăng xuất thành công',
   INVALID_EMAIL_OR_PASSWORD: 'Email hoặc mật khẩu không hợp lệ',
-  ACCESS_TOKEN_IS_REQUIRED: 'Access token is required'
+  ACCESS_TOKEN_IS_REQUIRED: 'Access token is required',
+  REFRESH_TOKEN_IS_REQUIRED: 'Refresh token is required',
+  REFRESH_TOKEN_IS_INVALID: 'Refresh token is invalid',
+  REFRESH_TOKEN_NOT_FOUND: 'Refresh token không tồn tại hoặc đã được sử dụng'
 } as const
