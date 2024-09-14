@@ -19,6 +19,7 @@ class UsersService {
         user_id,
         token_type: TokenType.AccessToken
       },
+      privateKey: process.env.JWT_SECRET_ACCESS_TOKEN,
       options: {
         expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN
       }
@@ -31,6 +32,7 @@ class UsersService {
         user_id,
         token_type: TokenType.RefreshToken
       },
+      privateKey: process.env.JWT_SECRET_REFRESH_TOKEN,
       options: {
         expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN
       }
@@ -48,7 +50,7 @@ class UsersService {
       },
       privateKey: process.env.JWT_SECRET_EMAIL_VERIFY_TOKEN,
       options: {
-        expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN
+        expiresIn: process.env.EMAIL_VERIFY_TOKEN_EXPIRES_IN
       }
     })
   }
@@ -119,6 +121,25 @@ class UsersService {
       access_token,
       refresh_token
     }
+  }
+
+  async resendVerifyEmail(user_id: string) {
+    const email_verify_token = await this.signEmailVerifyToken(user_id)
+    console.log('resend email_verify_token: ', email_verify_token)
+
+    // Cập nhật lại trường email_verify_token trong db
+    await databaseService.users.updateOne(
+      { _id: new ObjectId(user_id) },
+      {
+        $set: {
+          email_verify_token: email_verify_token
+        },
+        $currentDate: {
+          updated_at: true
+        }
+      }
+    )
+    return true
   }
 }
 

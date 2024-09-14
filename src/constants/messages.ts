@@ -25,7 +25,8 @@ export const USERS_MESSAGES = {
   REFRESH_TOKEN_IS_INVALID: 'Refresh token is invalid',
   REFRESH_TOKEN_NOT_FOUND: 'Refresh token không tồn tại hoặc đã được sử dụng',
   USER_NOT_FOUND: 'Không tìm thấy người dùng!',
+  USER_ALREADY_VERIFIED: 'Tài khoản này đã được xác thực',
   EMAIL_VERIFY_TOKEN_IS_REQUIRED: 'Email verify token is required',
-  EMAIL_ALREADY_VERIFIED: 'Email này đã được xác thực',
-  EMAIL_VERIFICATION_SUCCESS: 'Xác minh email thành công'
+  EMAIL_VERIFICATION_SUCCESS: 'Xác minh email thành công',
+  RESEND_EMAIL_VERIFY_TOKEN_SUCCESS: 'Gửi lại email xác minh thành công'
 } as const
