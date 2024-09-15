@@ -29,5 +29,8 @@ export const USERS_MESSAGES = {
   EMAIL_VERIFY_TOKEN_IS_REQUIRED: 'Email verify token is required',
   EMAIL_VERIFICATION_SUCCESS: 'Xác minh email thành công',
   RESEND_EMAIL_VERIFY_TOKEN_SUCCESS: 'Gửi lại email xác minh thành công',
-  CHECK_EMAIL_TO_RESET_PASSWORD: 'Vui lòng kiểm tra email để tiến hành đổi mật khẩu'
+  CHECK_EMAIL_TO_RESET_PASSWORD: 'Vui lòng kiểm tra email để tiến hành đổi mật khẩu',
+  FORGOT_PASSWORD_TOKEN_IS_REQUIRED: 'Forgot password token is required',
+  VERIFY_FORGOT_PASSWORD_SUCCESS: 'Verify forgot password token success',
+  FORGOT_PASSWORD_TOKEN_IS_INVALID: 'Forgot password token is invalid'
 } as const
