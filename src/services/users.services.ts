@@ -54,6 +54,19 @@ class UsersService {
       }
     })
   }
+  // Tạo forgot password token
+  private signForgotPasswordToken(user_id: string) {
+    return signToken({
+      payload: {
+        user_id,
+        token_type: TokenType.ForgotPasswordToken
+      },
+      privateKey: process.env.JWT_SECRET_FORGOT_PASSWORD_TOKEN,
+      options: {
+        expiresIn: process.env.FORGOT_PASSWORD_TOKEN_EXPIRES_IN
+      }
+    })
+  }
   async login(user_id: string) {
     const [access_token, refresh_token] = await this.signAccessAndRefreshToken(user_id)
     await databaseService.refreshTokens.insertOne(
@@ -139,6 +152,24 @@ class UsersService {
         }
       }
     )
+    return true
+  }
+
+  async forgotPassword(user_id: string) {
+    const forgot_password_token = await this.signForgotPasswordToken(user_id)
+    await databaseService.users.updateOne(
+      { _id: new ObjectId(user_id) },
+      {
+        $set: {
+          forgot_password_token: forgot_password_token
+        },
+        $currentDate: {
+          updated_at: true
+        }
+      }
+    )
+    // Khi tạo xong forgot_password_token vào db, ta sẽ tiến hành gửi email có dạng: https://abc.com/reset_password ?token=token
+    console.log('forgot_password_token: ', forgot_password_token)
     return true
   }
 }
